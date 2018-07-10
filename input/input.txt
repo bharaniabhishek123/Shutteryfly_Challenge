@@ -30,3 +30,5 @@
 {"type": "SITE_VISIT", "verb": "NEW", "key": "ac05e815512f", "event_time": "2018-01-31T12:45:52.041Z", "customer_id": "96f55c7d8010", "tags": {"some key": "some value"}}]
 
 
+
+
