@@ -56,7 +56,7 @@ This is critical assumption. However, we can change it to count VISIT only when 
   Total run time                        : 156.161186 secs   
   To replicate the same results, please generate the synthetic test data using DataGenerator.py inside unit_test folder.
       
-#Shutterfly Customer Lifetime Value
+# Shutterfly Customer Lifetime Value
 
 One way to analyze acquisition strategy and estimate marketing cost is to calculate the Lifetime Value (“LTV”) of a customer. Simply speaking, LTV is the projected revenue that customer will generate during their lifetime.
 
