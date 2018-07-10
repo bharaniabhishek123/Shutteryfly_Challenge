@@ -1,1 +1,10 @@
-Your source files reside in this directory
+Solution.py contains implementation for Ingest(e,D) and TopXSimpleLTVCustomers(x,D)
+
+I have created utils.py to convert datetime to weeknum conversion and sort the input data based on event time.
+
+Performance Improvements.
+Initial code was not using high performance datatype defaultdict. I added it and it improved the performance of Ingestion and TopXSimpleLTVCustomers.
+Currently to process 1 million events for 500 distinct customers it is taking around 30 secs but time to get topx customers is higher.
+We can improve performance by removing unnecessary event processing for events like 'IMAGE' as it does not impact the visits or amount calculation.
+
+

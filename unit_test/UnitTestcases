@@ -1,0 +1,37 @@
+Scenario :When UPDATE event for ORDER for which there is no Order_Id. Case UPDATE came before NEW
+Expected Result : Write the record in exception file
+
+Scenario : When UPDATE event for CUSTOMER came before NEW event
+Expected Result : Write the record as exception in log file
+
+Scenario : Junk Order Amount
+Expected Result : KeyError, skip the record for processing.
+
+Scenario : Junk or invalid event time format
+Expected Result : KeyError, skip the record for processing.
+
+Scenario : zerodivisionerror float division by zero
+Expected Result : Zero in denominator should be treated as special case with of division as 0.00
+
+
+Scenario : Ingestion Summary should reflect:
+Expected Result : Verify the log file for the ingestion Summary.
+
+Scenario : Optional Field Such as last_name, city , state can be missing . Test for different combination.
+Expected Result : For Missing Optional values substitute None
+
+Scenario : Input file containts Random order but records are processed in sequence with respect to event time
+Expected Result : Records must be processed with event time
+
+Scenario : No file in input directory
+Expected Result : Exit using system exit message.
+
+Scenario : for same customer id , we received new image id and event time
+Expected Result : It will be treated as new image event as image id will be unique
+
+CUSTOMER
+Scenario : UPDATE CUSTOMER event without exisiting customer_id. UPDATE event came before NEW event. -> Exception
+Scenario : NEW CUSTOMER event without existing customer_id. -> Insert
+Scenario : NEW CUSTOMER event with existing customer_id -> Exception
+Scenario : UPDATE CUSTOMER event with existing customer_id. -> Update
+Scenario : Optional Field such as last_name, city, state are missing. -> Handled using None

@@ -1,3 +1,61 @@
+#Solution 
+
+##Assumptions
+* *Assuming the order of  as type (site visit/customer) -> image upload -> order and since key and event_time are received with  no guaranteed order. We first sort the input data based on event_time.*  
+
+* *Each Key (customer_id,site_id,order_id) is Unique.For example SITE_VISIT events will have unique page_id, IMAGE event will have unique image_id. second occurence of page_id/image_id will be an exception while for customer_id/order_id the second occurence should come as update else it will be an exception, all these exception will be recorded in log file*      
+
+* *Assumption for CUSTOMER Event that NEW event will come first and then UPDATE event since file is sorted by event time. we handled this exception gracefully and all customer_id for which UPDATE event precedes the NEW event will be recorded in the log file.*   
+
+* *Event Time is format = '%Y-%m-%dT%H:%M:%S.%fZ'*  
+  No Time Conversion is expected. However we can extend this to convert to EST or other time.  
+
+* *Some customers will only have SITE_VISIT and CUSTOMER event, no order/images*  
+  We will default revenuePerVisit for such customers  as 0.00 and calculate visitsPerWeek assuming they may have orders in future.  
+  
+* *Please note that the timeframe for this calculation should come from D.*   
+ To use the timeframe from data that was ingested into D to calculate the LTV to find start  start and end dates of your LTV calculation.
+So, D may contain more than 1 year worth of data for a customerID. In other words the date range can be very wide or narrow and may span more than or less than 52 weeks. We should be counting the number of visits week wise.      
+visits = ['2017-01-02','2017-01-09','2018-01-01','2018-01-02','2018-05-02','2018-06-03']  
+visits_weekwise = [1,2,1,1,18,22]   
+Total site visits = 6 and distinct weeks are 4   
+number of site visits per week  = 6/4 = 1.50  
+
+##Data Structure Used
+    Input to Ingestion:                 Updated D from Ingestion/Input to TopXSimpleLTVCustomers          
+    D = {                               D = {                                                     
+        'customer': defaultdict(),          'customer':{customer_id(key):[lastnm ,city,state]}
+        'site_visit': defaultdict(),        'site_visit':{page_id(key):{{'customer_id': customer_id},{'event_time': [event_time]}}}
+        'image': defaultdict(),             'image':{image_id(key):{'customer_id':customer_id}  } # Not needed
+        'order': defaultdict()             'order':{order_id(key):[{'customer_id':customer_id}, {'order_id':total_amount}, {'event_time' :[event_time]}]}
+        }                                   }
+
+
+## Ingestion Summary  
+----------Ingestion Summary----------  
+----------Total Number of Events Processed  : 1252500  
+----------Total Distinct CustomerId Ingested: 500  
+----------Ingestion Time (in secs)          : 28.689338  
+
+## TopXSimpleLTVCustomers Sumary
+----------Time for get Top 50 customers(in secs): 178.478944
+
+
+## First Naive Solution 
+###Assumptions (later confirmed with shutterfly team that below assumptions are wrong) 
+* *UPDATE on ORDER events: assumption is customer_id will not be updated, we are incrementing the visit count and updating total amount*  
+* *UPDATE on CUSTOMER events:we are incrementing the visit count and updating last_name etc.*  
+* *Visit count should be incremented for all event types*  
+This is critical assumption. However, we can change it to count VISIT only when event type is SITE_VISIT.  
+  
+## Naive Solution Performance 
+* *Total execution time for 1.25 million events.*    
+  Total Number of Events Processed      : 1252535    events  
+  Ingestion Time (in secs)              : 156.128368 secs    
+  Total Time to get the top x customers : 0.002979   secs  
+  Total run time                        : 156.161186 secs   
+  To replicate the same results, please generate the synthetic test data using DataGenerator.py inside unit_test folder.
+      
 #Shutterfly Customer Lifetime Value
 
 One way to analyze acquisition strategy and estimate marketing cost is to calculate the Lifetime Value (“LTV”) of a customer. Simply speaking, LTV is the projected revenue that customer will generate during their lifetime.
@@ -93,6 +151,9 @@ https://blog.kissmetrics.com/how-to-calculate-lifetime-value
 ## Submission
 Once you have completed your code, submit a link to a Github repo that contains your source code to <mailto:ccdwh@shutterfly.com>.
 
+
+  
+  
 ## FAQ
 
 * *Do I need to create a private repo?*
