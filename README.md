@@ -1,6 +1,6 @@
-#Solution 
+# Solution 
 
-##Assumptions
+## Assumptions
 * *Assuming the order of  as type (site visit/customer) -> image upload -> order and since key and event_time are received with  no guaranteed order. We first sort the input data based on event_time.*  
 
 * *Each Key (customer_id,site_id,order_id) is Unique.For example SITE_VISIT events will have unique page_id, IMAGE event will have unique image_id. second occurence of page_id/image_id will be an exception while for customer_id/order_id the second occurence should come as update else it will be an exception, all these exception will be recorded in log file*      
@@ -21,7 +21,7 @@ visits_weekwise = [1,2,1,1,18,22]
 Total site visits = 6 and distinct weeks are 4   
 number of site visits per week  = 6/4 = 1.50  
 
-##Data Structure Used
+## Data Structure Used
     Input to Ingestion:                 Updated D from Ingestion/Input to TopXSimpleLTVCustomers          
     D = {                               D = {                                                     
         'customer': defaultdict(),          'customer':{customer_id(key):[lastnm ,city,state]}
