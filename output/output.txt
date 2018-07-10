@@ -1,1 +1,1 @@
-Your output data will end up here
+[["96f55c7d8005", ["Michael", "Rockville", "MD", 812.5, 2.0, 845000.0]], ["96f55c7d8010", ["Andy", "Middletown", "VA", 1316.25, 1.0, 684450.0]], ["96f55c7d8001", ["Jennifer", "Middletown", "VA", 1250.0, 1.0, 650000.0]], ["96f55c7d8004", ["Bill", "Washington", "DC", 50.0, 1.0, 26000.0]]]
