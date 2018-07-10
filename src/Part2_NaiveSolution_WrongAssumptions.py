@@ -4,7 +4,7 @@ import os
 import json
 from collections import defaultdict
 import time
-from src.utils import getWeekNum, presort, doAggregation
+from utils import getWeekNum, presort, doAggregation
 import sys
 import logging
 

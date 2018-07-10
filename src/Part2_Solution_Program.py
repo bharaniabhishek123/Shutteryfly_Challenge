@@ -6,7 +6,7 @@ import os
 import json
 from collections import defaultdict,namedtuple
 import time
-from src.utils import getWeekNum, presort, doAggregation
+from utils import getWeekNum, presort, doAggregation
 import sys
 import logging
 
@@ -299,17 +299,15 @@ def TopXSimpleLTVCustomers(x,D):
 
     topx_tuple = sorted(D['customer'].items(), key=lambda x:x[1][5], reverse=True)[:x]
 
-    result = dict(topx_tuple) # converting list of tuples to dict
-
     LTV_toc = time.time()
     LTV_time = LTV_toc - LTV_tic
 
-    logging.info('final results %s...', result)
+    logging.info('final results %s...', topx_tuple)
     logging.info("TopXSimpleLTVCustomers Completed Successfully...")
     logging.info("----------TopXSimpleLTVCustomers Summary----------")
     logging.info("----------Time for get Top %d customers(in secs): %f",x ,LTV_time)
 
-    return result
+    return topx_tuple
 
 
 def main():
